@@ -56,7 +56,11 @@
     #welcomeOverlay {
       position: fixed; inset:0; background: linear-gradient(90deg,#FFD700,#6F4E37);
       display:flex; align-items:center; justify-content:center; z-index:9998; padding:20px;
-      color:#003366; font-size:1.6em; font-weight:700; text-align:center;
+      color:#fff; font-size:1.6em; font-weight:700; text-align:center;
+      opacity: 1; transition: opacity 1s ease;
+    }
+    #welcomeOverlay.fade-out {
+      opacity: 0;
     }
 
     @media (max-width:480px){
@@ -118,7 +122,7 @@
   </form>
 
 <script>
-  // URL de tu Web App (la que enviaste)
+  // URL de tu Web App
   const scriptURL = "https://script.google.com/macros/s/AKfycbyKtIScsOhCdF8fyAN8BwZrG77D8PAmN2gFtDdfCfRODymhkJ_YlCcd3wdIYHBqrJN0/exec";
 
   const overlay = document.getElementById('overlay');
@@ -126,10 +130,13 @@
   const progressBar = document.getElementById('progressBar');
   const progressPercent = document.getElementById('progressPercent');
 
-  // Ocultar bienvenida tras 2.5s
+  // Ocultar bienvenida con fade-out tras 2.5s
   setTimeout(() => {
     const w = document.getElementById('welcomeOverlay');
-    if (w) w.style.display = 'none';
+    if (w) {
+      w.classList.add('fade-out');
+      setTimeout(() => { w.style.display = 'none'; }, 1000); // espera transición
+    }
   }, 2500);
 
   // Lógica anonimato
@@ -188,7 +195,6 @@
         reader.onerror = reject;
         reader.readAsDataURL(f);
       });
-      // aumentar contado y actualizar progress (hasta 80% durante encoding)
       uploaded += f.size;
       if (totalSize > 0) {
         const percent = Math.round((uploaded / totalSize) * 80);
@@ -198,7 +204,7 @@
       files.push({ name: f.name, mimeType: f.type || 'application/octet-stream', base64: base64.split(',')[1] });
     }
 
-    // Construir payload con el orden y nombres que usa tu Apps Script
+    // Construir payload
     const payload = {
       fechaEnvio: new Date().toISOString(),
       fechaIncidente: form.fechaIncidente.value || '',
@@ -213,17 +219,14 @@
     progressBar.style.width = '90%';
     progressPercent.textContent = '90%';
 
-    // Enviar al Web App (usamos no-cors para evitar problemas de preflight con Apps Script)
     try {
       await fetch(scriptURL, {
         method: 'POST',
         mode: 'no-cors',
         body: JSON.stringify(payload)
       });
-      // En no-cors no hay respuesta accesible: asumimos éxito si no hubo excepción
     } catch (err) {
       console.error('Error fetch:', err);
-      // aún así continuamos al reset para que el usuario no quede bloqueado
     }
 
     // Completar barra y reset
