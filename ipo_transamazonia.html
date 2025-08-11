@@ -6,59 +6,52 @@
   <title>IPO – Transamazonia</title>
   <link rel="icon" href="logo_transamazonia.png" type="image/png" />
   <style>
+    /* Misma estilización que antes (colores, etc.) */
     body {
       font-family: "Helvetica Neue", Helvetica, Tahoma, sans-serif;
       background: #fff;
-      color: #003366; /* azul oscuro */
+      color: #003366;
       padding: 20px;
       max-width: 600px;
       margin: auto;
     }
-
     h1 {
       text-align: center;
-      color: #B8860B; /* dorado */
+      color: #B8860B;
     }
-
     .logo {
       display: block;
       margin: 0 auto 20px;
       max-width: 200px;
     }
-
     .form-group {
       margin-bottom: 15px;
     }
-
     label {
       font-weight: bold;
       display: block;
       margin-bottom: 5px;
     }
-
     input[type="text"],
     input[type="date"],
     textarea {
       width: 100%;
       padding: 10px;
-      border: 1px solid #6F4E37; /* café */
+      border: 1px solid #6F4E37;
       border-radius: 5px;
       box-sizing: border-box;
-      background: #fff8dc; /* fondo crema suave */
+      background: #fff8dc;
       color: #003366;
     }
-
     textarea {
       resize: vertical;
     }
-
     input[type="file"] {
       border: none;
     }
-
     button {
       width: 100%;
-      background: #FFD700; /* amarillo dorado */
+      background: #FFD700;
       color: #003366;
       border: none;
       border-radius: 5px;
@@ -67,12 +60,10 @@
       cursor: pointer;
       font-weight: bold;
     }
-
     button:hover {
-      background: #B8860B; /* dorado oscuro */
+      background: #B8860B;
       color: #fff;
     }
-
     .checkbox-label,
     .accept-label {
       display: flex;
@@ -80,12 +71,10 @@
       font-weight: normal;
       color: #003366;
     }
-
     .checkbox-label input,
     .accept-label input {
       margin-right: 8px;
     }
-
     #overlay {
       position: fixed;
       inset: 0;
@@ -99,39 +88,33 @@
       z-index: 99;
       display: none;
     }
-
     #progressContainer {
       width: 80%;
       margin-top: 20px;
     }
-
     #progressBar {
       height: 14px;
-      background-color: #FFD700; /* amarillo */
+      background-color: #FFD700;
       border-radius: 6px;
       width: 0%;
       transition: width 0.3s ease;
     }
-
     #progressWrapper {
       background: #eee;
       border-radius: 6px;
       overflow: hidden;
       height: 14px;
     }
-
     #progressPercent {
       text-align: right;
       font-size: 13px;
       margin-top: 5px;
       color: #fff;
     }
-
-    /* Pantalla bienvenida simplificada */
     #welcomeOverlay {
       position: fixed;
       inset: 0;
-      background: linear-gradient(to right, #FFD700, #6F4E37); /* amarillo a café */
+      background: linear-gradient(to right, #FFD700, #6F4E37);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -168,7 +151,7 @@
 <form id="ipoForm">
   <div class="form-group">
     <label>Fecha del incidente
-      <input type="date" name="fecha" required />
+      <input type="date" name="fechaIncidente" required />
     </label>
   </div>
 
@@ -209,16 +192,15 @@
 </form>
 
 <script>
-  const scriptURL = 'TU_URL_DE_GOOGLE_SCRIPT_AQUI'; // Aquí debe ir el nuevo URL de tu Google Apps Script para Transamazonia
+  const scriptURL = 'TU_URL_DE_GOOGLE_SCRIPT_AQUI'; // Cambia esta URL por la real
+
   const overlay = document.getElementById('overlay');
   const progressContainer = document.getElementById('progressContainer');
   const progressBar = document.getElementById('progressBar');
   const progressPercent = document.getElementById('progressPercent');
 
-  // Ocultar bienvenida tras 3s
   setTimeout(() => (document.getElementById('welcomeOverlay').style.display = 'none'), 3000);
 
-  // Confidencialidad
   document.getElementById('anon').addEventListener('change', (e) => {
     const n = document.getElementById('nombreInput');
     if (e.target.checked) {
@@ -277,8 +259,12 @@
       files.push({ name: f.name, mimeType: f.type, base64 });
     }
 
+    // Fecha envío ISO string
+    const fechaEnvio = new Date().toISOString();
+
     const payload = {
-      fecha: d.get('fecha'),
+      fechaEnvio,
+      fechaIncidente: d.get('fechaIncidente'),
       nombre: nombreFinal,
       cargo: d.get('cargo'),
       descripcion: d.get('descripcion'),
