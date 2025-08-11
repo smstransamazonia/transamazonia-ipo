@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RPV – Avianca Cargo</title>
-  <link rel="icon" href="https://juancamilotibaduiza.github.io/avianca-rpv-demo/logo_avianca_cargo.png" type="image/png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IPO – Transamazonia</title>
+  <link rel="icon" href="logo_transamazonia.png" type="image/png" />
   <style>
     body {
       font-family: "Helvetica Neue", Helvetica, Tahoma, sans-serif;
       background: #fff;
-      color: #000;
+      color: #003366; /* azul oscuro */
       padding: 20px;
       max-width: 600px;
       margin: auto;
@@ -17,7 +17,7 @@
 
     h1 {
       text-align: center;
-      color: #DA291C;
+      color: #B8860B; /* dorado */
     }
 
     .logo {
@@ -41,9 +41,11 @@
     textarea {
       width: 100%;
       padding: 10px;
-      border: 1px solid #ccc;
+      border: 1px solid #6F4E37; /* café */
       border-radius: 5px;
       box-sizing: border-box;
+      background: #fff8dc; /* fondo crema suave */
+      color: #003366;
     }
 
     textarea {
@@ -56,17 +58,19 @@
 
     button {
       width: 100%;
-      background: #DA291C;
-      color: #fff;
+      background: #FFD700; /* amarillo dorado */
+      color: #003366;
       border: none;
       border-radius: 5px;
       padding: 12px;
       font-size: 16px;
       cursor: pointer;
+      font-weight: bold;
     }
 
     button:hover {
-      background: #b11417;
+      background: #B8860B; /* dorado oscuro */
+      color: #fff;
     }
 
     .checkbox-label,
@@ -74,6 +78,7 @@
       display: flex;
       align-items: center;
       font-weight: normal;
+      color: #003366;
     }
 
     .checkbox-label input,
@@ -84,7 +89,7 @@
     #overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, .7);
+      background: rgba(0, 0, 0, 0.7);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -102,7 +107,7 @@
 
     #progressBar {
       height: 14px;
-      background-color: #DA291C;
+      background-color: #FFD700; /* amarillo */
       border-radius: 6px;
       width: 0%;
       transition: width 0.3s ease;
@@ -119,39 +124,23 @@
       text-align: right;
       font-size: 13px;
       margin-top: 5px;
+      color: #fff;
     }
 
-    /* Bienvenida */
+    /* Pantalla bienvenida simplificada */
     #welcomeOverlay {
       position: fixed;
       inset: 0;
-      background: linear-gradient(to right, #DA291C, #ffffff);
+      background: linear-gradient(to right, #FFD700, #6F4E37); /* amarillo a café */
       display: flex;
       align-items: center;
-      overflow: hidden;
+      justify-content: center;
       z-index: 999;
       padding-left: 5%;
-    }
-
-    #welcomeText {
-      color: #fff;
+      color: #003366;
       font-size: 2em;
       font-weight: bold;
-      z-index: 1;
-    }
-
-    #plane {
-      position: absolute;
-      left: -300px;
-      width: 200px;
-      z-index: 2;
-      animation: fly 3s linear forwards;
-    }
-
-    @keyframes fly {
-      to {
-        left: 100%;
-      }
+      text-align: center;
     }
   </style>
 </head>
@@ -159,8 +148,7 @@
 
 <!-- Pantalla de bienvenida -->
 <div id="welcomeOverlay">
-  <div id="welcomeText">¡Bienvenido al sistema RPV de Avianca Cargo!</div>
-  <img id="plane" src="https://juancamilotibaduiza.github.io/avianca-rpv-demo/plane_avianca.png" alt="Avión Avianca">
+  ¡Bienvenido al sistema IPO de Transamazonia!
 </div>
 
 <!-- Overlay de carga -->
@@ -173,65 +161,65 @@
 </div>
 
 <!-- Logo y encabezado -->
-<img class="logo" src="https://raw.githubusercontent.com/JuanCamiloTibaduiza/avianca-rpv-demo/main/logo_avianca_cargo.png" alt="Avianca Cargo">
-<h1>REPORTE DE PELIGROS VOLUNTARIOS (RPV)</h1>
+<img class="logo" src="logo_transamazonia.png" alt="Transamazonia" />
+<h1>Informe de peligro operaciones (IPO)</h1>
 
 <!-- Formulario -->
-<form id="rpvForm">
+<form id="ipoForm">
   <div class="form-group">
     <label>Fecha del incidente
-      <input type="date" name="fecha" required>
+      <input type="date" name="fecha" required />
     </label>
   </div>
 
   <div class="form-group">
     <label>Nombre</label>
-    <input id="nombreInput" name="nombre" type="text" placeholder="Ej: Juan Pérez">
+    <input id="nombreInput" name="nombre" type="text" placeholder="Ej: Juan Pérez" />
     <label class="checkbox-label">
-      <input type="checkbox" id="anon"> Confidencial
+      <input type="checkbox" id="anon" /> Confidencial
     </label>
   </div>
 
   <div class="form-group">
     <label>Cargo
-      <input name="cargo" type="text" placeholder="Ej: Coordinador de carga">
+      <input name="cargo" type="text" placeholder="Ej: Coordinador de operaciones" />
     </label>
   </div>
 
   <div class="form-group">
     <label>Descripción del peligro
-      <textarea name="descripcion" rows="4" placeholder="Ej: Falla en procedimiento de estiba…" required></textarea>
+      <textarea name="descripcion" rows="4" placeholder="Ej: Falla en procedimiento operativo…" required></textarea>
     </label>
   </div>
 
   <div class="form-group">
     <label>Evidencia (PDF/imagen/video, máx 10 MB c/u)
-      <input name="files" id="files" type="file" multiple accept="image/*,application/pdf,video/*">
+      <input name="files" id="files" type="file" multiple accept="image/*,application/pdf,video/*" />
     </label>
   </div>
 
   <div class="form-group">
     <label class="accept-label">
-      <input type="checkbox" id="acepto" required>
+      <input type="checkbox" id="acepto" required />
       He leído y acepto el uso y tratamiento de mis datos personales.
     </label>
   </div>
 
-  <button type="submit">Enviar reporte</button>
+  <button type="submit">Enviar informe</button>
 </form>
 
 <script>
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbw9xgyhX6SztqJ_1SyivfsJfZN0_TaA6vjyOQePWLbKHspPIyyYTU7Bl3-r1NjkxGWL8Q/exec';
+  const scriptURL = 'TU_URL_DE_GOOGLE_SCRIPT_AQUI'; // Aquí debe ir el nuevo URL de tu Google Apps Script para Transamazonia
   const overlay = document.getElementById('overlay');
   const progressContainer = document.getElementById('progressContainer');
   const progressBar = document.getElementById('progressBar');
   const progressPercent = document.getElementById('progressPercent');
 
   // Ocultar bienvenida tras 3s
-  setTimeout(() => document.getElementById('welcomeOverlay').style.display = 'none', 3000);
+  setTimeout(() => (document.getElementById('welcomeOverlay').style.display = 'none'), 3000);
 
   // Confidencialidad
-  document.getElementById('anon').addEventListener('change', e => {
+  document.getElementById('anon').addEventListener('change', (e) => {
     const n = document.getElementById('nombreInput');
     if (e.target.checked) {
       n.value = '';
@@ -241,11 +229,11 @@
     } else {
       n.disabled = false;
       n.placeholder = 'Ej: Juan Pérez';
-      n.style.background = '#ffffff';
+      n.style.background = '#fff8dc';
     }
   });
 
-  document.getElementById('rpvForm').addEventListener('submit', async e => {
+  document.getElementById('ipoForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
     if (!document.getElementById('acepto').checked) {
@@ -268,14 +256,15 @@
     overlay.style.display = 'flex';
     if (filesInput.files.length > 0) progressContainer.style.display = 'block';
 
-    let files = [], uploaded = 0;
+    let files = [],
+      uploaded = 0;
     for (const f of filesInput.files) {
       if (f.size > 10 * 1024 * 1024) {
         alert(`Archivo ${f.name} excede 10 MB y se omite.`);
         continue;
       }
       const reader = new FileReader();
-      const base64 = await new Promise(resolve => {
+      const base64 = await new Promise((resolve) => {
         reader.onload = () => {
           uploaded += f.size;
           const percent = Math.round((uploaded / totalSize) * 80);
@@ -294,7 +283,7 @@
       cargo: d.get('cargo'),
       descripcion: d.get('descripcion'),
       anonimo,
-      files
+      files,
     };
 
     progressBar.style.width = '90%';
@@ -303,7 +292,7 @@
     await fetch(scriptURL, {
       method: 'POST',
       mode: 'no-cors',
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
 
     progressBar.style.width = '100%';
@@ -314,11 +303,11 @@
       progressContainer.style.display = 'none';
       progressBar.style.width = '0%';
       progressPercent.textContent = '0%';
-      alert('✅ ¡Reporte enviado!');
+      alert('✅ ¡Informe enviado!');
       e.target.reset();
       document.getElementById('nombreInput').disabled = false;
       document.getElementById('nombreInput').placeholder = 'Ej: Juan Pérez';
-      document.getElementById('nombreInput').style.background = '#ffffff';
+      document.getElementById('nombreInput').style.background = '#fff8dc';
     }, 700);
   });
 </script>
