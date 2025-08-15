@@ -55,12 +55,25 @@
     /* bienvenida */
     #welcomeOverlay {
       position: fixed; inset:0; background: linear-gradient(90deg,#FFD700,#6F4E37);
-      display:flex; align-items:center; justify-content:center; z-index:9998; padding:20px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:9998; padding:20px;
       color:#fff; font-size:1.6em; font-weight:700; text-align:center;
       opacity: 1; transition: opacity 1s ease;
     }
     #welcomeOverlay.fade-out {
       opacity: 0;
+    }
+
+    /* avión animado */
+    #welcomeOverlay img {
+      width: 120px;
+      opacity: 0;
+      transform: translateX(-50px);
+      animation: flyIn 2s ease forwards;
+      animation-delay: 0.5s;
+    }
+    @keyframes flyIn {
+      0% { opacity: 0; transform: translateX(-50px); }
+      100% { opacity: 1; transform: translateX(0); }
     }
 
     @media (max-width:480px){
@@ -72,7 +85,10 @@
 <body>
 
   <!-- Bienvenida -->
-  <div id="welcomeOverlay">¡Bienvenido al sistema IPO de Transamazonia!</div>
+  <div id="welcomeOverlay">
+    <div>¡Bienvenido al sistema IPO de Transamazonia!</div>
+    <img src="Avion.png" alt="Avión">
+  </div>
 
   <!-- Overlay carga -->
   <div id="overlay">
@@ -122,7 +138,6 @@
   </form>
 
 <script>
-  // URL de tu Web App
   const scriptURL = "https://script.google.com/macros/s/AKfycbyKtIScsOhCdF8fyAN8BwZrG77D8PAmN2gFtDdfCfRODymhkJ_YlCcd3wdIYHBqrJN0/exec";
 
   const overlay = document.getElementById('overlay');
@@ -135,7 +150,7 @@
     const w = document.getElementById('welcomeOverlay');
     if (w) {
       w.classList.add('fade-out');
-      setTimeout(() => { w.style.display = 'none'; }, 1000); // espera transición
+      setTimeout(() => { w.style.display = 'none'; }, 1000);
     }
   }, 2500);
 
@@ -168,7 +183,6 @@
     const anonimo = document.getElementById('anon').checked;
     const nombreFinal = anonimo ? 'Anónimo' : (form.nombre.value || '');
 
-    // Validación tamaños totales
     let totalSize = 0;
     for (const f of filesInput.files) totalSize += f.size;
     if (totalSize > 15 * 1024 * 1024) {
@@ -176,12 +190,10 @@
       return;
     }
 
-    // Mostrar overlay y progreso si hay archivos
     overlay.style.display = 'flex';
     if (filesInput.files.length > 0) progressContainer.style.display = 'block';
     else progressContainer.style.display = 'none';
 
-    // Leer archivos a base64 (se hace secuencial para actualizar progreso)
     const files = [];
     let uploaded = 0;
     for (const f of filesInput.files) {
@@ -204,7 +216,6 @@
       files.push({ name: f.name, mimeType: f.type || 'application/octet-stream', base64: base64.split(',')[1] });
     }
 
-    // Construir payload
     const payload = {
       fechaEnvio: new Date().toISOString(),
       fechaIncidente: form.fechaIncidente.value || '',
@@ -215,7 +226,6 @@
       files: files
     };
 
-    // Mostrar 90% mientras enviamos
     progressBar.style.width = '90%';
     progressPercent.textContent = '90%';
 
@@ -229,7 +239,6 @@
       console.error('Error fetch:', err);
     }
 
-    // Completar barra y reset
     progressBar.style.width = '100%';
     progressPercent.textContent = '100%';
 
