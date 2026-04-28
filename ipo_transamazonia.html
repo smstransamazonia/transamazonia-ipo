@@ -232,7 +232,10 @@
     try {
       await fetch(scriptURL, {
         method: 'POST',
-        mode: 'cors',
+        mode: 'no-cors',
+        headers: {
+        'Content-Type': 'text/plain'
+        },
         body: JSON.stringify(payload)
       });
     } catch (err) {
