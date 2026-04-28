@@ -232,7 +232,7 @@
     try {
       await fetch(scriptURL, {
         method: 'POST',
-        mode: 'no-cors',
+        mode: 'cors',
         body: JSON.stringify(payload)
       });
     } catch (err) {
